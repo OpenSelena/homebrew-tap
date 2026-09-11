@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OpenSelena/openomni/main/assets/logo-dark.svg">
     <img src="https://raw.githubusercontent.com/OpenSelena/openomni/main/assets/logo-light.svg" alt="Open Selena" width="240">
@@ -12,18 +12,18 @@
 
 <p align="center">
   <a href="https://github.com/OpenSelena/homebrew-tap/actions"><img src="https://img.shields.io/badge/Homebrew-Tap-FBB040.svg?logo=homebrew&logoColor=white" alt="Homebrew Tap"></a>
-  <a href="https://github.com/OpenSelena/openomni"><img src="https://img.shields.io/badge/Open%20Omni-v1.0.0-C15F3C.svg" alt="Open Omni Version"></a>
+  <a href="https://github.com/OpenSelena/openomni"><img src="https://img.shields.io/badge/Open%20Omni-v1.1.0-C15F3C.svg" alt="Open Omni Version"></a>
   <a href="https://github.com/OpenSelena/openomni/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
   <a href="mailto:igect@vk.com"><img src="https://img.shields.io/badge/contact-igect%40vk.com-blue.svg" alt="Contact Email"></a>
 </p>
 
 ---
 
-## Available Formula
+## Available Formulae
 
 | Formula | Version | Description | Command |
 | :--- | :--- | :--- | :--- |
-| **`open-omni`** | `1.0.0` | Fast terminal media downloader & TUI for 1,800+ sites (YouTube, X, Instagram, TikTok, Threads, etc.) | `brew install OpenSelena/tap/open-omni` |
+| **`open-omni`** | `1.1.0` | Fast terminal media downloader & TUI for 1,800+ sites (YouTube, X, Instagram, TikTok, Threads, etc.) | `brew install OpenSelena/tap/open-omni` |
 
 ---
 

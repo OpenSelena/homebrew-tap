@@ -1,0 +1,67 @@
+name: Tap Audit & Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Formula & Cask URLs and Checksums
+        run: |
+          python -c "
+          import re, urllib.request, hashlib, sys, glob
+
+          failed = False
+          files = glob.glob('Formula/*.rb') + glob.glob('Casks/*.rb')
+
+          for fpath in files:
+              with open(fpath, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              
+              version_match = re.search(r'version [\"\']([^\"\']+)[\"\']', content)
+              version = version_match.group(1) if version_match else ''
+              
+              # Resolve version interpolations in URLs
+              url_matches = re.findall(r'url [\"\']([^\"\']+)[\"\']', content)
+              sha_matches = re.findall(r'sha256 [\"\']([a-fA-F0-9]{64})[\"\']', content)
+
+              for i, raw_url in enumerate(url_matches):
+                  resolved_url = raw_url.replace('#{version}', version)
+                  expected_sha = sha_matches[i] if i < len(sha_matches) else None
+                  
+                  print(f'Checking {fpath} -> {resolved_url}')
+                  req = urllib.request.Request(resolved_url, headers={'User-Agent': 'Homebrew/4.0'})
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as resp:
+                          if resp.status != 200:
+                              print(f'  [FAIL] HTTP status {resp.status}')
+                              failed = True
+                              continue
+                          data = resp.read()
+                          if expected_sha:
+                              actual_sha = hashlib.sha256(data).hexdigest()
+                              if actual_sha.lower() != expected_sha.lower():
+                                  print(f'  [FAIL] SHA256 mismatch! Expected: {expected_sha}, Got: {actual_sha}')
+                                  failed = True
+                              else:
+                                  print(f'  [PASS] SHA256 matches.')
+                  except Exception as e:
+                      print(f'  [FAIL] {e}')
+                      failed = True
+
+          if failed:
+              sys.exit(1)
+          print('All formula and cask URLs and checksums verified successfully.')
+          "

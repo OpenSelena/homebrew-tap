@@ -1,13 +1,13 @@
 cask "omniget" do
-  version "0.10.0"
+  version "0.15.0"
 
   on_arm do
-    url "https://github.com/OpenSelena/omniget/releases/download/v#{version}/omniget_#{version}_aarch64.dmg"
-    sha256 "7e674b1b6038c9d9d676c27b0013b03d53104f0761298717e8aa1574787122cf"
+    url "https://github.com/OpenSelena/omniget/releases/download/v#{version}/OmniGet_#{version}_aarch64.dmg"
+    sha256 "62abe692d1809f53beb8b17bf34e6077eb4fb3f9a92d7234e77ac8ca9947f652"
   end
   on_intel do
-    url "https://github.com/OpenSelena/omniget/releases/download/v#{version}/omniget_#{version}_x64.dmg"
-    sha256 "e8235f02c4d888cdcffa237411ad514bef0dc3428caa8e9d2d51321f1c306aeb"
+    url "https://github.com/OpenSelena/omniget/releases/download/v#{version}/OmniGet_#{version}_x64.dmg"
+    sha256 "7656e146f5c6a1b0811756741b65ce6ad2d8d7dc0a6fee131f9f21072276d5b8"
   end
 
   name "OmniGet"
@@ -19,7 +19,7 @@ cask "omniget" do
     strategy :github_latest
   end
 
-  app "omniget.app"
+  app "OmniGet.app"
 
   zap trash: [
     "~/Library/Application Support/com.openselena.omniget",

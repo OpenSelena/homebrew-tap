@@ -1,10 +1,8 @@
-require "language/node"
-
 class OpenNami < Formula
-  desc "Terminal-first bulk social media profile downloader for Instagram, TikTok, Facebook & X"
+  desc "Bulk social media profile downloader for Instagram, TikTok, Facebook & X"
   homepage "https://github.com/OpenSelena/open-nami"
-  url "https://registry.npmjs.org/open-nami/-/open-nami-1.9.4.tgz"
-  sha256 "934e700751af2af84166cd6fda27b2412967db4ecc6b5d2be295ac8597fe7ef6"
+  url "https://registry.npmjs.org/open-nami/-/open-nami-1.9.7.tgz"
+  sha256 "b07771db516e08490bf05492b0ad1394d24ed2629a3da8bfb2e2bb626ddb5490"
   license "MIT"
 
   livecheck do
@@ -17,7 +15,7 @@ class OpenNami < Formula
   depends_on "yt-dlp"
 
   def install
-    system "npm", "install", *Language::Node.std_npm_install_args(libexec)
+    system "npm", "install", *std_npm_args
     bin.install_symlink Dir["#{libexec}/bin/*"]
   end
 

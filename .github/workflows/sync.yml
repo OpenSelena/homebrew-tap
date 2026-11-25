@@ -1,0 +1,56 @@
+name: Sync Upstream Packages
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package to check (all, open-nami, open-omni, libreget)
+        required: false
+        default: all
+        type: choice
+        options:
+          - all
+          - open-nami
+          - open-omni
+          - libreget
+  repository_dispatch:
+    types: [release-published]
+
+concurrency:
+  group: sync-tap
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sync manifests with upstream releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_PACKAGE: ${{ inputs.package || github.event.client_payload.package || 'all' }}
+        run: python scripts/sync_tap.py --sync --verify --package "$TARGET_PACKAGE"
+
+      - name: Commit and push updated manifests
+        run: |
+          if [ -z "$(git status --porcelain Formula/ Casks/)" ]; then
+            echo "No tap changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/ Casks/
+          git commit -m "chore(tap): sync manifests with latest upstream releases"
+          git push

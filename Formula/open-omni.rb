@@ -1,5 +1,3 @@
-require "language/node"
-
 class OpenOmni < Formula
   desc "Fast terminal media downloader and TUI for 1,800+ sites"
   homepage "https://github.com/OpenSelena/open-omni"
@@ -17,7 +15,7 @@ class OpenOmni < Formula
   depends_on "yt-dlp"
 
   def install
-    system "npm", "install", *Language::Node.std_npm_install_args(libexec)
+    system "npm", "install", *std_npm_args
     bin.install_symlink Dir["#{libexec}/bin/*"]
   end
 

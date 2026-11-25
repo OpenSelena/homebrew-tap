@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/OpenSelena/libreget">
+  <a href="https://github.com/OpenSelena">
     <img src="assets/logo.png" alt="OpenSelena Logo" width="100" height="100" />
   </a>
 </p>
@@ -7,72 +7,56 @@
 <h1 align="center">OpenSelena Homebrew Tap</h1>
 
 <p align="center">
-  Official Homebrew distribution channel for <a href="https://github.com/OpenSelena/libreget">LibreGet</a> and OpenSelena media tools.<br>
-  Install and update desktop applications and CLI tools on macOS and Linux with one command.
+  Official Homebrew tap for <a href="https://github.com/OpenSelena/libreget">LibreGet</a>, <a href="https://github.com/OpenSelena/open-omni">Open Omni</a>, and <a href="https://github.com/OpenSelena/open-nami">Open Nami</a>.<br>
+  Formulas and casks sync automatically every 15 minutes from upstream npm and GitHub releases.
 </p>
 
 <p align="center">
-  <a href="https://brew.sh/"><img src="https://img.shields.io/badge/Homebrew-Tap-FBB040?style=for-the-badge&logo=homebrew&logoColor=white" alt="Homebrew" /></a>
+  <a href="https://github.com/OpenSelena/homebrew-tap/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/OpenSelena/homebrew-tap/tests.yml?style=for-the-badge&label=audit&logo=githubactions&logoColor=white" alt="Tap Audit Status" /></a>
+  <a href="https://github.com/OpenSelena/homebrew-tap/actions/workflows/sync.yml"><img src="https://img.shields.io/github/actions/workflow/status/OpenSelena/homebrew-tap/sync.yml?style=for-the-badge&label=auto-sync&logo=homebrew&logoColor=white" alt="Tap Sync Status" /></a>
   <a href="https://github.com/OpenSelena/libreget/releases/latest"><img src="https://img.shields.io/github/v/release/OpenSelena/libreget?style=for-the-badge&label=LibreGet&color=F28500" alt="LibreGet Release" /></a>
-  <a href="https://github.com/OpenSelena/open-omni/releases/latest"><img src="https://img.shields.io/github/v/release/OpenSelena/open-omni?style=for-the-badge&label=Open%20Omni&color=10b981" alt="Open Omni" /></a>
-  <a href="https://github.com/OpenSelena/open-nami/releases/latest"><img src="https://img.shields.io/github/v/release/OpenSelena/open-nami?style=for-the-badge&label=Open%20Nami&color=8b5cf6" alt="Open Nami" /></a>
+  <a href="https://github.com/OpenSelena/open-omni/releases/latest"><img src="https://img.shields.io/github/v/release/OpenSelena/open-omni?style=for-the-badge&label=Open%20Omni&color=10b981" alt="Open Omni Release" /></a>
+  <a href="https://github.com/OpenSelena/open-nami/releases/latest"><img src="https://img.shields.io/github/v/release/OpenSelena/open-nami?style=for-the-badge&label=Open%20Nami&color=C15F3C" alt="Open Nami Release" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2AA845?style=for-the-badge" alt="License MIT" /></a>
 </p>
 
-## Getting Started
+---
 
-Add the OpenSelena tap to your Homebrew installation:
+## Packages
 
-```bash
+| Package | Type | Target | Install command |
+| :--- | :--- | :--- | :--- |
+| <img src="https://api.iconify.design/ph/desktop.svg?color=%23F28500" width="18" height="18" align="center" alt="Desktop" /> **[LibreGet](https://github.com/OpenSelena/libreget)** | Cask | macOS *(Apple Silicon & Intel)* | `brew install --cask OpenSelena/tap/libreget` |
+| <img src="https://api.iconify.design/ph/terminal-window.svg?color=%2310B981" width="18" height="18" align="center" alt="CLI" /> **[Open Omni](https://github.com/OpenSelena/open-omni)** | Formula | macOS & Linux | `brew install OpenSelena/tap/open-omni` |
+| <img src="https://api.iconify.design/ph/images.svg?color=%23C15F3C" width="18" height="18" align="center" alt="Profiles" /> **[Open Nami](https://github.com/OpenSelena/open-nami)** | Formula | macOS & Linux | `brew install OpenSelena/tap/open-nami` |
+
+*(Legacy `omniget` cask installs automatically migrate to `libreget` via `cask_renames.json`.)*
+
+---
+
+## Install & Upgrade
+
+```sh
+# Add the tap once (optional if using OpenSelena/tap/<pkg> directly)
 brew tap OpenSelena/tap
-```
 
-## Available Tools
-
-### 1. LibreGet (Desktop App)
-Universal desktop media downloader and tool hub for macOS (Apple Silicon & Intel).
-```bash
+# Install
 brew install --cask libreget
+brew install open-omni open-nami
+
+# Upgrade to latest synced versions
+brew update && brew upgrade open-omni open-nami && brew upgrade --cask libreget
 ```
 
-### 2. Open Omni (CLI)
-Terminal media downloader and TUI for 1,800+ sites with batch playlist processing.
-```bash
-brew install open-omni
-```
+---
 
-### 3. Open Nami (CLI)
-Bulk creator media profile archiver for Instagram, TikTok, Facebook, and X.
-```bash
-brew install open-nami
-```
+## Real-Time Sync & Validation
 
-## Updating
+- [Sync workflow](.github/workflows/sync.yml) polls upstream npm (`open-nami`) and GitHub Releases (`OpenSelena/open-omni`, `OpenSelena/libreget`) every 15 minutes (`schedule`), on manual `workflow_dispatch`, or on `repository_dispatch` (`release-published`), recomputing and verifying SHA-256 digests via [sync_tap.py](scripts/sync_tap.py).
+- [Tap Audit & Validation](.github/workflows/tests.yml) checks Ruby syntax and verifies every download URL and SHA-256 checksum on pushes and pull requests.
 
-Update all tools installed from this tap with standard Homebrew commands:
-
-```bash
-# Update tap manifests
-brew update
-
-# Upgrade LibreGet desktop app
-brew upgrade --cask libreget
-
-# Upgrade CLI tools
-brew upgrade open-omni open-nami
-```
-
-## Repositories & Documentation
-
-- **[LibreGet](https://github.com/OpenSelena/libreget)** — Desktop media downloader & 158-tool hub
-- **[LibreGet Extension](https://github.com/OpenSelena/libreget-extension)** — Companion browser extension for Chrome, Edge, and Firefox
-- **[Open Omni](https://github.com/OpenSelena/open-omni)** — Terminal media downloader & TUI
-- **[Open Nami](https://github.com/OpenSelena/open-nami)** — Bulk creator profile archiver
-
-For tap-specific packaging issues or cask requests, visit the [homebrew-tap issue tracker](https://github.com/OpenSelena/homebrew-tap/issues).
+---
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
-
-Maintained by [Igect](https://github.com/igect) under the [OpenSelena](https://github.com/OpenSelena) organization.
+[MIT](LICENSE) — maintained by [OpenSelena](https://github.com/OpenSelena).
